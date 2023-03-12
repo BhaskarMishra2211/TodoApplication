@@ -1,0 +1,36 @@
+{% extends 'todo/base.html' %}
+{% block content %}
+
+    {% for todo in todos %} 
+    <article class = "Todo">
+        <time class = "date">created : {{ todo.created_date }}</time>
+        <h3>Created by : {{ request.user }}</h3>
+
+        <h2>{{ todo.task }}</h2>
+        <h3>Completed : {{ todo.completed|linebreaksbr }}</h3>
+
+
+        <P>Time Remaining : {{ todo.get_time_diff }} hrs</P>
+        {% if user.is_authenticated and todo.completed == True and user.username == todo.name %}
+            <button type = "button" class = "btn btn-dark"><a href = "{% url 'todo_remove' pk=todo.pk%}">Delete</a></button>
+            <p>_____________________________________________________________________________________________________________</p>
+        {% elif  user.is_authenticated and todo.completed == False and user.username == todo.name and todo.get_time_diff != 0 %}
+            <button type = "button" class = "btn btn-dark"><a href = "{% url 'edit_todo' pk=todo.pk%}">Edit</a></button>
+            <button type = "button" class = "btn btn-dark"><a href = "{% url 'todo_remove' pk=todo.pk%}">Delete</a></button>
+            <p>_____________________________________________________________________________________________________________</p>
+
+        {% elif  user.is_authenticated and todo.completed == False and user.username == todo.name and todo.get_time_diff == 0 %}
+            <p>The timelimit for the task is over.</p>
+            <button type = "button" class = "btn btn-dark"><a href = "{% url 'todo_remove' pk=todo.pk%}">Delete</a></button>
+            <p>______________________________________________________________________________________________________</p>
+
+        {% else %}
+            <P>-------------------------------------------------------------------------------------------------------------</P>
+        {% endif %}
+
+        
+    </article>
+
+{% endfor %} 
+
+{% endblock %}

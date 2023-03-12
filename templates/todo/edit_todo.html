@@ -1,0 +1,11 @@
+{% extends 'todo/base.html' %}
+{% load static %}
+
+{% block content %} 
+    <h2>Add Todo</h2>
+    <form method = "POST" class = "todo-form">
+        {% csrf_token %} 
+        {{ form.as_p }}
+        <button type = "submit" class ="save btn btn-success">Save</button>
+    </form>
+{% endblock %}

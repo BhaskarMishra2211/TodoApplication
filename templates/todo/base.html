@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html> 
+<html>
+    <head>
+        <!--contains the information that is not displayed on the screen-->
+        <title>TODOS LIST</title>
+        <link rel = "stylesheet" href = "{% static 'css/todo.css' %}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+        <link href="https://fonts.googleapis.com/css?family=Lobster&subset = latin,latin-ext" rel="stylesheet" type = "text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+
+        <header class = "page-header">
+            <div class = "container">
+                {% if user.is_authenticated %}
+                    <h1>Hello {{ request.user }}</h1>
+                    <h3><a href="{% url 'logout' %}" class = "top-menu">Logout</a></h3>
+                    <h4><a href = "{% url 'todo_new' %}" class = "top-menu">
+                        CreateTodo
+                    </a></h4>
+                    <h4><a href = "{% url 'assign' %}" class = "top-menu">AssignTask</a></h4>
+                {% else %} 
+                    <h3><a href="{% url 'login' %}" class = "top-menu">Log In</a></h3>
+                {% endif %}
+                <h1><a href="#">TODOS LIST</a></h1>
+                {% if user.is_authenticated %}
+                    <h2>Total Todos : {{ todos.count }}</h2>
+                    <h3> Completed Task : {{ completed_task }}
+                {% endif %}
+            </div>
+        </header>
+
+        <main class = "container">
+            <div class = "row">
+                <div class = "col">
+                    {% block content %} 
+                    
+                    {% endblock %}
+                </div>
+            </div>
+        </main>
+
+    </body>
+</html>
